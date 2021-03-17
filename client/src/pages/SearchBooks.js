@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Jumbotron, Container, Col, Form, Button, Card, CardColumns } from 'react-bootstrap';
 
 import Auth from '../utils/auth';
-import { searchGoogleBooks } from '../utils/API';
+import { searchMovieDB } from '../utils/API';
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
 
 import { SAVE_BOOK } from '../utils/mutations'
@@ -29,29 +29,41 @@ const SearchBooks = () => {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
-    if (!searchInput) {
-      return false;
-    }
+    // if (!searchInput) {
+    //   return false;
+    // }
+
+    // try {
+    // const res = await fetch(url);
+    // const data = await res.json();
+    // console.log(data.results);
+    // setSearchedBooks(data.results);
+    // } catch (err) {
+    //   console.log(err);
+    // }
 
     try {
-      const response = await searchGoogleBooks(searchInput);
+      const response = await searchMovieDB(searchInput);
 
       if (!response.ok) {
         throw new Error('something went wrong!');
       }
 
-      const { items } = await response.json();
+    //   const { items } = await response.json();
 
-      const bookData = items.map((book) => ({
-        bookId: book.id,
-        authors: book.volumeInfo.authors || ['No author to display'],
-        title: book.volumeInfo.title,
-        description: book.volumeInfo.description,
-        image: book.volumeInfo.imageLinks?.thumbnail || '',
-      }));
+    //   const bookData = items.map((book) => ({
+    //     bookId: book.id,
+    //     authors: book.volumeInfo.authors || ['No author to display'],
+    //     title: book.volumeInfo.title,
+    //     description: book.volumeInfo.description,
+    //     image: book.volumeInfo.imageLinks?.thumbnail || '',
+    //   }));
 
-      setSearchedBooks(bookData);
-      setSearchInput('');
+    //   setSearchedBooks(bookData);
+    //   setSearchInput('');
+        const data = await response.json();
+    console.log(data.results);
+    setSearchedBooks(data.results);
     } catch (err) {
       console.error(err);
     }
@@ -91,7 +103,7 @@ const SearchBooks = () => {
     <>
       <Jumbotron fluid className='text-light bg-dark'>
         <Container>
-          <h1>Search for Books!</h1>
+          <h1>Search for Movies!</h1>
           <Form onSubmit={handleFormSubmit}>
             <Form.Row>
               <Col xs={12} md={8}>
@@ -101,7 +113,7 @@ const SearchBooks = () => {
                   onChange={(e) => setSearchInput(e.target.value)}
                   type='text'
                   size='lg'
-                  placeholder='Search for a book'
+                  placeholder='Search for a movie'
                 />
               </Col>
               <Col xs={12} md={4}>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Jumbotron, Container, Col, Form, Button, Card, CardColumns } from 'react-bootstrap';
+import { Jumbotron, Container, Col, Form, Button } from 'react-bootstrap';
 
 import Auth from '../utils/auth';
 import { searchMovieDB } from '../utils/API';
@@ -10,7 +10,7 @@ import { useMutation } from '@apollo/client'
 
 const SearchBooks = () => {
   // create state for holding returned google api data
-  const [searchedBooks, setSearchedBooks] = useState([]);
+  const [searchedMovies, setSearchedMovies] = useState([]);
   // create state for holding our search field data
   const [searchInput, setSearchInput] = useState('');
 
@@ -20,7 +20,6 @@ const SearchBooks = () => {
   const [saveBook, { error }] = useMutation(SAVE_BOOK);
 
   // set up useEffect hook to save `savedBookIds` list to localStorage on component unmount
-  // learn more here: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
   useEffect(() => {
     return () => saveBookIds(savedBookIds);
   });
@@ -29,18 +28,9 @@ const SearchBooks = () => {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
-    // if (!searchInput) {
-    //   return false;
-    // }
-
-    // try {
-    // const res = await fetch(url);
-    // const data = await res.json();
-    // console.log(data.results);
-    // setSearchedBooks(data.results);
-    // } catch (err) {
-    //   console.log(err);
-    // }
+    if (!searchInput) {
+      return false;
+    }
 
     try {
       const response = await searchMovieDB(searchInput);
@@ -49,21 +39,19 @@ const SearchBooks = () => {
         throw new Error('something went wrong!');
       }
 
-    //   const { items } = await response.json();
+      const data = await response.json();
 
-    //   const bookData = items.map((book) => ({
-    //     bookId: book.id,
-    //     authors: book.volumeInfo.authors || ['No author to display'],
-    //     title: book.volumeInfo.title,
-    //     description: book.volumeInfo.description,
-    //     image: book.volumeInfo.imageLinks?.thumbnail || '',
-    //   }));
+      // const movieData = items.map((movie) => ({
+      //   movieId: movie.id,
+      //   releaseDate: movie.release_date,
+      //   title: movie.title,
+      //   description: movie.overview,
+      //   image: movie.poster_path || '',
+      // }));
 
-    //   setSearchedBooks(bookData);
-    //   setSearchInput('');
-        const data = await response.json();
     console.log(data.results);
-    setSearchedBooks(data.results);
+    setSearchedMovies(data.results);
+    setSearchInput('');
     } catch (err) {
       console.error(err);
     }
@@ -71,8 +59,8 @@ const SearchBooks = () => {
 
   // create function to handle saving a book to our database
   const handleSaveBook = async (bookId) => {
-    // find the book in `searchedBooks` state by the matching id
-    const bookToSave = searchedBooks.find((book) => book.bookId === bookId);
+    // find the book in `searchedMovies` state by the matching id
+    const bookToSave = searchedMovies.find((book) => book.bookId === bookId);
 
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
@@ -128,36 +116,13 @@ const SearchBooks = () => {
 
       <Container>
         <h2>
-          {searchedBooks.length
-            ? `Viewing ${searchedBooks.length} results:`
-            : 'Search for a book to begin'}
+          {searchedMovies.length
+            ? `Viewing ${searchedMovies.length} results:`
+            : 'Search for a movie to begin'}
         </h2>
-        <CardColumns>
-          {searchedBooks.map((book) => {
-            return (
-              <Card key={book.bookId} border='dark'>
-                {book.image ? (
-                  <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant='top' />
-                ) : null}
-                <Card.Body>
-                  <Card.Title>{book.title}</Card.Title>
-                  <p className='small'>Authors: {book.authors}</p>
-                  <Card.Text>{book.description}</Card.Text>
-                  {Auth.loggedIn() && (
-                    <Button
-                      disabled={savedBookIds?.some((savedBookId) => savedBookId === book.bookId)}
-                      className='btn-block btn-info'
-                      onClick={() => handleSaveBook(book.bookId)}>
-                      {savedBookIds?.some((savedBookId) => savedBookId === book.bookId)
-                        ? 'This book has already been saved!'
-                        : 'Save this Book!'}
-                    </Button>
-                  )}
-                </Card.Body>
-              </Card>
-            );
-          })}
-        </CardColumns>
+        <div>
+          {searchedMovies.map(movie => movie.title)}
+        </div>
       </Container>
     </>
   );

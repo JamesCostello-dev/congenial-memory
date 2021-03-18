@@ -6,13 +6,13 @@ query {
     _id
     username
     email
-    bookCount
-    savedBooks {
-        bookId
-        authors 
+    movieCount
+    savedMovies {
+        movieId
+        title
+        releaseDate
         description
-        title 
-        image
+        poster
         link
     }
   }

@@ -8,13 +8,13 @@ mutation login($email: String!, $password: String!) {
       _id
       username
       email
-      bookCount
-      savedBooks {
-        bookId
-        authors 
+      movieCount
+      savedMovies {
+        movieId
+        title
+        releaseDate
         description
-        title 
-        image
+        poster
         link
       }
     }
@@ -30,13 +30,13 @@ mutation addUser($username: String!, $email: String!, $password: String!) {
       _id
       username
       email
-      bookCount
-      savedBooks {
-        bookId
-        authors
-        description
+      movieCount
+      savedMovies {
+        movieId
         title
-        image
+        releaseDate
+        description
+        poster
         link
       }
     }
@@ -45,37 +45,37 @@ mutation addUser($username: String!, $email: String!, $password: String!) {
 `;
 
 export const SAVE_BOOK = gql`
-mutation saveBook($input: bookInput!) {
-  saveBook(input: $input) {
+mutation saveMovie($input: bookInput!) {
+  saveMovie(input: $input) {
     _id
     username
     email
-    savedBooks {
-        bookId
-        authors
-        description
-        title
-        image
-        link
+    savedMovies {
+      movieId
+      title
+      releaseDate
+      description
+      poster
+      link
     }
   }
 }
 `;
 
 export const REMOVE_BOOK = gql`
-mutation removeBook($bookId: String!) {
-  removeBook(bookId: $bookId) {
+mutation removieMovie($movieId: String!) {
+  removieMovie(movieId: $movieId) {
     _id
     username
     email
-    bookCount
-    savedBooks {
-        bookId
-        authors
-        description
-        title
-        image
-        link
+    movieCount
+    savedMovies {
+      movieId
+      title
+      releaseDate
+      description
+      poster
+      link
     }
   }
 }

@@ -8,7 +8,7 @@ import { useQuery, useMutation } from '@apollo/client'
 import { REMOVE_BOOK } from '../utils/mutations';
 import { GET_ME } from '../utils/queries';
 
-const SavedBooks = () => {
+const savedMovies = () => {
   const { loading, data } = useQuery(GET_ME);
   const [removeBook, { error }] = useMutation(REMOVE_BOOK);
 
@@ -47,17 +47,17 @@ const SavedBooks = () => {
     <>
       <Jumbotron fluid className='text-light bg-dark'>
         <Container>
-          <h1>Viewing saved books!</h1>
+          <h1>Viewing saved movies!</h1>
         </Container>
       </Jumbotron>
       <Container>
         <h2>
-          {userData.savedBooks.length
-            ? `Viewing ${userData.savedBooks.length} saved ${userData.savedBooks.length === 1 ? 'book' : 'books'}:`
-            : 'You have no saved books!'}
+          {userData.savedMovies.length
+            ? `Viewing ${userData.savedMovies.length} saved ${userData.savedMovies.length === 1 ? 'book' : 'books'}:`
+            : 'You have no saved movies!'}
         </h2>
         <CardColumns>
-          {userData.savedBooks.map((book) => {
+          {userData.savedMovies.map((book) => {
             return (
               <Card key={book.bookId} border='dark'>
                 {book.image ? <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant='top' /> : null}
@@ -78,4 +78,4 @@ const SavedBooks = () => {
   );
 };
 
-export default SavedBooks;
+export default savedMovies;

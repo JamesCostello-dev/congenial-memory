@@ -37,20 +37,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Copyright = () => {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      {/* Add website url to href */}
-      <Link color="inherit" href="/">
-        Final Project
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
 // Need to add validation for TextFields
 
 const LoginForm = () => {
@@ -152,9 +138,6 @@ const LoginForm = () => {
           </Grid>
         </form>
       </div>
-      <Box mt={8}>
-        <Copyright />
-      </Box>
     </Container>
   );
 }

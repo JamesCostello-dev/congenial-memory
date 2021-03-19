@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Form } from "react-bootstrap";
 
 import Auth from "../utils/auth";
 import { searchMovieDB } from "../utils/API";
@@ -7,6 +6,11 @@ import { saveMovieIds, getSavedMovieIds } from "../utils/localStorage";
 
 import { SAVE_MOVIE } from "../utils/mutations";
 import { useMutation } from "@apollo/client";
+
+import Button from '@material-ui/core/Button';
+import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
 
 const SearchMovies = () => {
   const [searchedMovies, setSearchedMovies] = useState([]);
@@ -71,13 +75,12 @@ const SearchMovies = () => {
 
   return (
     <>
-      <div>
-        <div className="container">
-          <h1>Search for Movies!</h1>
-          <Form onSubmit={handleFormSubmit}>
-            <div className="row">
-              <div className="column">
-                <Form.Control
+        <Container maxWidth="lg">
+          <Typography component="h1" variant="h5">Search for Movies!</Typography>
+          <form onSubmit={handleFormSubmit}>
+                <TextField
+                  variant="outlined"
+                  margin="normal"
                   name="searchInput"
                   value={searchInput}
                   onChange={(e) => setSearchInput(e.target.value)}
@@ -85,23 +88,24 @@ const SearchMovies = () => {
                   size="lg"
                   placeholder="Search for a movie"
                 />
-              </div>
-              <div className="column">
-                <button type="submit" variant="success" size="lg">
+                <div>
+                <Button 
+                type="submit" 
+                variant="contained"
+                color="primary" >
                   Submit Search
-                </button>
-              </div>
-            </div>
-          </Form>
-        </div>
-      </div>
+                </Button>
+                </div>
+          </form>
+        </Container>
+ 
 
-      <div className="container">
-        <h2>
+        <Container maxWidth="lg">
+        <Typography component="h2" variant="h5">
           {searchedMovies.length
             ? `Viewing ${searchedMovies.length} results:`
             : "Search for a movie to begin"}
-        </h2>
+        </Typography>
         <div>
           {searchedMovies
             .filter((movie) => movie.poster_path)
@@ -128,7 +132,7 @@ const SearchMovies = () => {
               </div>
             ))}
         </div>
-      </div>
+      </Container>
     </>
   );
 };

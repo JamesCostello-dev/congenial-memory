@@ -54,9 +54,8 @@ const SavedMovies = () => {
       <Container>
         <h2>
           {userData.savedMovies.length
-            ? `Viewing ${userData.savedMovies.length} saved ${
-                userData.savedMovies.length === 1 ? "movie" : "movies"
-              }:`
+            ? `Viewing ${userData.savedMovies.length} saved ${userData.savedMovies.length === 1 ? "movie" : "movies"
+            }:`
             : "You have no saved movies!"}
         </h2>
         <CardColumns>

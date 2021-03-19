@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Jumbotron, Container, Col, Form, Button } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 
 import Auth from "../utils/auth";
 import { searchMovieDB } from "../utils/API";
@@ -71,12 +71,12 @@ const SearchMovies = () => {
 
   return (
     <>
-      <Jumbotron fluid className="text-light bg-dark">
-        <Container>
+      <div>
+        <div className="container">
           <h1>Search for Movies!</h1>
           <Form onSubmit={handleFormSubmit}>
-            <Form.Row>
-              <Col xs={12} md={8}>
+            <div className="row">
+              <div className="column">
                 <Form.Control
                   name="searchInput"
                   value={searchInput}
@@ -85,18 +85,18 @@ const SearchMovies = () => {
                   size="lg"
                   placeholder="Search for a movie"
                 />
-              </Col>
-              <Col xs={12} md={4}>
-                <Button type="submit" variant="success" size="lg">
+              </div>
+              <div className="column">
+                <button type="submit" variant="success" size="lg">
                   Submit Search
-                </Button>
-              </Col>
-            </Form.Row>
+                </button>
+              </div>
+            </div>
           </Form>
-        </Container>
-      </Jumbotron>
+        </div>
+      </div>
 
-      <Container>
+      <div className="container">
         <h2>
           {searchedMovies.length
             ? `Viewing ${searchedMovies.length} results:`
@@ -128,7 +128,7 @@ const SearchMovies = () => {
               </div>
             ))}
         </div>
-      </Container>
+      </div>
     </>
   );
 };

@@ -98,7 +98,7 @@ const SignupForm = () => {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
-                autoComplete="uname"
+                autoComplete="username"
                 name="username"
                 onChange={handleInputChange}
                 value={userFormData.username}

@@ -31,12 +31,12 @@ const resolvers = {
       const token = signToken(user);
       return { token, user };
     },
-    saveMovie: async (parent, { input }, { user }) => {
+    savedMovie: async (parent, { input }, { user }) => {
       if (user) {
         const updateUser = await User.findByIdAndUpdate(
           { _id: user._id },
           { $addToSet: { savedMovies: input } },
-          { new: true , runValidators: true}
+          { new: true, runValidators: true }
         );
         return updateUser;
       }
@@ -47,7 +47,7 @@ const resolvers = {
         const updateUser = await User.findOneAndUpdate(
           { _id: user._id },
           { $pull: { savedMovies: { movieId: movieId } } },
-          { new: true , runValidators: true}
+          { new: true, runValidators: true }
         );
         return updateUser;
       }

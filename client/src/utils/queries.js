@@ -10,10 +10,9 @@ export const GET_ME = gql`
       savedMovies {
         movieId
         title
-        releaseDate
-        description
+        overview
         poster
-        link
+        date
       }
     }
   }

@@ -10,12 +10,11 @@ export const LOGIN_USER = gql`
         email
         movieCount
         savedMovies {
-          movieId
-          title
-          releaseDate
-          description
-          poster
-          link
+        movieId
+        title
+        overview
+        poster
+        date
         }
       }
     }
@@ -32,12 +31,11 @@ export const ADD_USER = gql`
         email
         movieCount
         savedMovies {
-          movieId
-          title
-          releaseDate
-          description
-          poster
-          link
+        movieId
+        title
+        overview
+        poster
+        date
         }
       }
     }
@@ -45,7 +43,7 @@ export const ADD_USER = gql`
 `;
 
 export const SAVE_MOVIE = gql`
-  mutation saveMovie($input: bookInput!) {
+  mutation saveMovie($input: movieInput!) {
     saveMovie(input: $input) {
       _id
       username
@@ -53,10 +51,9 @@ export const SAVE_MOVIE = gql`
       savedMovies {
         movieId
         title
-        releaseDate
-        description
+        overview
         poster
-        link
+        date
       }
     }
   }
@@ -72,10 +69,9 @@ export const REMOVE_MOVIE = gql`
       savedMovies {
         movieId
         title
-        releaseDate
-        description
+        overview
         poster
-        link
+        date
       }
     }
   }

@@ -22,8 +22,8 @@ const useStyles = makeStyles((theme) => ({
     padding: '5px'
   },
   button: {
-      padding: '10px'
-    },
+    padding: '10px'
+  },
   top: {
     paddingTop: '10px'
   }
@@ -36,7 +36,7 @@ const SearchMovies = () => {
   const [savedMovieIds, setSavedMovieIds] = useState(getSavedMovieIds());
   const [saveMovie, { error }] = useMutation(SAVE_MOVIE);
   const classes = useStyles();
-  
+
 
   useEffect(() => {
     return () => saveMovieIds(savedMovieIds);
@@ -57,9 +57,17 @@ const SearchMovies = () => {
       }
 
       const data = await response.json();
-      
 
-      setSearchedMovies(data.results);
+      const movieData = data.results.map((movie) => ({
+        movieId: movie.id,
+        title: movie.title,
+        overview: movie.overview,
+        poster: movie.poster_path || '',
+        date: movie.release_date
+      }));
+
+
+      setSearchedMovies(movieData);
       setSearchInput("");
     } catch (err) {
       console.error(err);
@@ -98,67 +106,67 @@ const SearchMovies = () => {
 
   return (
     <>
-        <Container maxWidth="sm" className={classes.top} align="center">
-          <Typography component="h1" variant="h5">Search for Movies!</Typography>
-          <form onSubmit={handleFormSubmit}>
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  name="searchInput"
-                  value={searchInput}
-                  onChange={(e) => setSearchInput(e.target.value)}
-                  type="text"
-                  size="lg"
-                  placeholder="Search for a movie"
-                />
-                <div>
-                <Button 
-                type="submit" 
-                variant="contained"
-                color="primary"
-                size="lg" >
-                  Submit Search
+      <Container maxWidth="sm" className={classes.top} align="center">
+        <Typography component="h1" variant="h5">Search for Movies!</Typography>
+        <form onSubmit={handleFormSubmit}>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            name="searchInput"
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            type="text"
+            size="lg"
+            placeholder="Search for a movie"
+          />
+          <div>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              size="lg" >
+              Submit Search
                 </Button>
-                </div>
-          </form>
-        </Container>
- 
+          </div>
+        </form>
+      </Container>
 
-        <Container maxWidth="sm" align="center" className={classes.top}>
+
+      <Container maxWidth="sm" align="center" className={classes.top}>
         <Typography component="h2" variant="h5">
           {searchedMovies.length
             ? `Viewing ${searchedMovies.length} results:`
             : "Search for a movie to begin"}
         </Typography>
         <div>
-          {searchedMovies
-            .filter((movie) => movie.poster_path)
-            .map((movie) => (
-              <Card key={movie.id} className={classes.root}>
-                <CardHeader title={movie.title} subheader={movie.release_date} align="left"/>
+          {searchedMovies.map((movie) => {
+            return (
+              <Card key={movie.movieId} className={classes.root}>
+                <CardHeader title={movie.title} subheader={movie.date} align="left" />
                 <CardContent>
-                <img
-                  src={`https://image.tmdb.org/t/p/w185_and_h278_bestv2/${movie.poster_path}`}
-                  alt={"poster for " + movie.title}
-                /></CardContent>
+                  <img
+                    src={`https://image.tmdb.org/t/p/w185_and_h278_bestv2/${movie.poster}`}
+                    alt={"poster for " + movie.title}
+                  /></CardContent>
                 <CardContent align="left">
                   <Typography component="p" variant="h5">
-                  {movie.overview}
+                    {movie.overview}
                   </Typography></CardContent>
                 {/* {Auth.loggedIn() && ( */}
-                    <Button
-                      disabled={savedMovieIds?.some((savedMovieId) => savedMovieId === movie.movieId)}
-                      onClick={() => handleSaveMovie(movie.movieId)}
-                      variant="contained"
-                      color="primary"
-                      className={classes.button}>
-                      {savedMovieIds?.some((savedMovieId) => savedMovieId === movie.movieId)
-                        ? 'This movie has already been saved!'
-                        : 'Save this Movie!'}
-                    </Button>
-                  {/* )} */}
+                <Button
+                  disabled={savedMovieIds?.some((savedMovieId) => savedMovieId === movie.movieId)}
+                  onClick={() => handleSaveMovie(movie.movieId)}
+                  variant="contained"
+                  color="primary"
+                  className={classes.button}>
+                  {savedMovieIds?.some((savedMovieId) => savedMovieId === movie.movieId)
+                    ? 'This movie has already been saved!'
+                    : 'Save this Movie!'}
+                </Button>
+                {/* )} */}
               </Card>
-            ))}
+            );
+          })}
         </div>
       </Container>
     </>

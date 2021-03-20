@@ -11,12 +11,32 @@ import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
+import Card from '@material-ui/core/Card';
+import { makeStyles } from '@material-ui/core/styles';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardContent from '@material-ui/core/CardContent';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    maxWidth: 500,
+    padding: '5px'
+  },
+  button: {
+      padding: '10px'
+    },
+  top: {
+    paddingTop: '10px'
+  }
+
+}));
 
 const SearchMovies = () => {
   const [searchedMovies, setSearchedMovies] = useState([]);
   const [searchInput, setSearchInput] = useState("");
   const [savedMovieIds, setSavedMovieIds] = useState(getSavedMovieIds());
   const [saveMovie, { error }] = useMutation(SAVE_MOVIE);
+  const classes = useStyles();
+  
 
   useEffect(() => {
     return () => saveMovieIds(savedMovieIds);
@@ -37,6 +57,7 @@ const SearchMovies = () => {
       }
 
       const data = await response.json();
+      
 
       setSearchedMovies(data.results);
       setSearchInput("");
@@ -73,9 +94,11 @@ const SearchMovies = () => {
     }
   };
 
+
+
   return (
     <>
-        <Container maxWidth="lg">
+        <Container maxWidth="sm" className={classes.top} align="center">
           <Typography component="h1" variant="h5">Search for Movies!</Typography>
           <form onSubmit={handleFormSubmit}>
                 <TextField
@@ -92,7 +115,8 @@ const SearchMovies = () => {
                 <Button 
                 type="submit" 
                 variant="contained"
-                color="primary" >
+                color="primary"
+                size="lg" >
                   Submit Search
                 </Button>
                 </div>
@@ -100,7 +124,7 @@ const SearchMovies = () => {
         </Container>
  
 
-        <Container maxWidth="lg">
+        <Container maxWidth="sm" align="center" className={classes.top}>
         <Typography component="h2" variant="h5">
           {searchedMovies.length
             ? `Viewing ${searchedMovies.length} results:`
@@ -110,26 +134,30 @@ const SearchMovies = () => {
           {searchedMovies
             .filter((movie) => movie.poster_path)
             .map((movie) => (
-              <div className="card" key={movie.id}>
+              <Card key={movie.id} className={classes.root}>
+                <CardHeader title={movie.title} subheader={movie.release_date} align="left"/>
+                <CardContent>
                 <img
-                  className="card--image"
                   src={`https://image.tmdb.org/t/p/w185_and_h278_bestv2/${movie.poster_path}`}
                   alt={"poster for " + movie.title}
-                />
-                <h3>{movie.title}</h3>
-                <p>Release Date: {movie.release_date}</p>
-                <p>Description: {movie.overview}</p>
-                {/* {Auth.loggedIn() && (
+                /></CardContent>
+                <CardContent align="left">
+                  <Typography component="p" variant="h5">
+                  {movie.overview}
+                  </Typography></CardContent>
+                {/* {Auth.loggedIn() && ( */}
                     <Button
                       disabled={savedMovieIds?.some((savedMovieId) => savedMovieId === movie.movieId)}
-                      className='btn-block btn-info'
-                      onClick={() => handleSaveMovie(movie.movieId)}>
+                      onClick={() => handleSaveMovie(movie.movieId)}
+                      variant="contained"
+                      color="primary"
+                      className={classes.button}>
                       {savedMovieIds?.some((savedMovieId) => savedMovieId === movie.movieId)
                         ? 'This movie has already been saved!'
                         : 'Save this Movie!'}
                     </Button>
-                  )} */}
-              </div>
+                  {/* )} */}
+              </Card>
             ))}
         </div>
       </Container>

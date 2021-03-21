@@ -19,7 +19,7 @@ import CardContent from '@material-ui/core/CardContent';
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 500,
-    padding: '5px'
+    padding: '5px' 
   },
   button: {
     padding: '10px'
@@ -94,8 +94,6 @@ const SearchMovies = () => {
         throw new Error("Something went wrong");
       }
 
-      console.log(data);
-
       setSavedMovieIds([...savedMovieIds, movieToSave.movieId]);
     } catch (err) {
       console.error(err);
@@ -152,7 +150,7 @@ const SearchMovies = () => {
                   <Typography component="p" variant="h5">
                     {movie.overview}
                   </Typography></CardContent>
-                {/* {Auth.loggedIn() && ( */}
+                {Auth.loggedIn() && (
                 <Button
                   disabled={savedMovieIds?.some((savedMovieId) => savedMovieId === movie.movieId)}
                   onClick={() => handleSaveMovie(movie.movieId)}
@@ -163,7 +161,7 @@ const SearchMovies = () => {
                     ? 'This movie has already been saved!'
                     : 'Save this Movie!'}
                 </Button>
-                {/* )} */}
+                 )} 
               </Card>
             );
           })}

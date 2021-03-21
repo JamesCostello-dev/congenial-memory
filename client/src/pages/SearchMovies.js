@@ -90,6 +90,8 @@ const SearchMovies = () => {
         variables: { input: movieToSave },
       });
 
+      console.log(data);
+
       if (error) {
         throw new Error("Something went wrong");
       }

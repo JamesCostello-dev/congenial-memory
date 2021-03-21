@@ -52,28 +52,27 @@ const SavedMovies = () => {
       <Container>
         <Typography component="h2" variant="h5">
           {userData.savedMovies.length
-            ? `Viewing ${userData.savedMovies.length} saved ${userData.savedMovies.length === 1 ? "movie" : "movies"
-            }:`
+            ? `Viewing ${userData.savedMovies.length} saved ${userData.savedMovies.length === 1 ? "movie" : "movies"}:`
             : "You have no saved movies!"}
-            You have no saved movies!
         </Typography>
         <div className="column">
-          {userData.savedMovies.filter((movie) => {
+          {userData.savedMovies.map((movie) => {
             return (
-              <Card key={movie.id}>
+              <Card key={movie.movieId}>
                 <CardContent>
                   <img
-                    src={`https://image.tmdb.org/t/p/w185_and_h278_bestv2/${movie.poster_path}`}
+                    src={`https://image.tmdb.org/t/p/w185_and_h278_bestv2/${movie.poster}`}
                     alt={"poster for " + movie.title}
                   /></CardContent>
-                <CardHeader title={movie.title} subheader={movie.release_date} align="left" />
+                <CardHeader title={movie.title} subheader={movie.date} align="left" />
                 <CardContent align="left">
                   <Typography component="p" variant="h5">
                     {movie.overview}
                   </Typography></CardContent>
                 <Button
-                  className="btn-block btn-danger"
-                  onClick={() => handleDeleteMovie(movie.id)}
+                  variant="contained"
+                  color="primary"
+                  onClick={() => handleDeleteMovie(movie.movieId)}
                 >
                   Delete this Movie!
                   </Button>

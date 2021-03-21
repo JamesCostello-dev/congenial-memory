@@ -1,20 +1,18 @@
-// see SignupForm.js for comments
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-
-import { loginUser } from '../utils/API';
 import Auth from '../utils/auth';
 import { LOGIN_USER } from '../utils/mutations'
 import { useMutation } from '@apollo/client'
+import FormHelperText from '@material-ui/core/FormHelperText';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -36,14 +34,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// Need to add validation for TextFields
-
 const LoginForm = () => {
   const classes = useStyles();
 
   const [userFormData, setUserFormData] = useState({ email: '', password: '' });
-  const [validated] = useState(false);
-  // const [showAlert, setShowAlert] = useState(false);
   const [login, { error }] = useMutation(LOGIN_USER);
 
   const handleInputChange = (event) => {
@@ -72,7 +66,6 @@ const LoginForm = () => {
       Auth.login(data.login.token);
     } catch (err) {
       console.error(err);
-      // setShowAlert(true);
     }
 
     setUserFormData({
@@ -90,21 +83,20 @@ const LoginForm = () => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          Login
         </Typography>
-        <form className={classes.form} noValidate validated={validated} onSubmit={handleFormSubmit}>
+        <form className={classes.form} onSubmit={handleFormSubmit}>
           <TextField
             variant="outlined"
             margin="normal"
             required
+            type="text"
             fullWidth
             id="email"
             label="Email Address"
             name="email"
             onChange={handleInputChange}
             value={userFormData.email}
-            autoComplete="email"
-            autoFocus
           />
           <TextField
             variant="outlined"
@@ -117,8 +109,12 @@ const LoginForm = () => {
             label="Password"
             type="password"
             id="password"
-            autoComplete="current-password"
           />
+          {
+            error ? <div>
+              <FormHelperText variant="error" >Incorrect credentials</FormHelperText>
+            </div> : null
+          }
           <Button
             type="submit"
             fullWidth
@@ -128,9 +124,9 @@ const LoginForm = () => {
           >
             Sign In
           </Button>
-          <Grid container>
+          <Grid container justify="center">
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link as={Link} to='/signup' variant="body1">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>

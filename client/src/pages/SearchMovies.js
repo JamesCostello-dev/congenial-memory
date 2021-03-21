@@ -116,15 +116,13 @@ const SearchMovies = () => {
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
             type="text"
-            size="lg"
             placeholder="Search for a movie"
           />
           <div>
             <Button
               type="submit"
               variant="contained"
-              color="primary"
-              size="lg" >
+              color="primary">
               Submit Search
                 </Button>
           </div>

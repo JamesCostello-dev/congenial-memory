@@ -5,12 +5,12 @@ import { useQuery, useMutation } from "@apollo/client";
 import { REMOVE_MOVIE } from "../utils/mutations";
 import { GET_ME } from "../utils/queries";
 
-import Container from "@material-ui/core/Container";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import CardContent from "@material-ui/core/CardContent";
+import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardContent from '@material-ui/core/CardContent';
 
 const SavedMovies = () => {
   const { loading, data } = useQuery(GET_ME);
@@ -47,45 +47,35 @@ const SavedMovies = () => {
   return (
     <>
       <Container>
-        <Typography component="h1" variant="h5">
-          Viewing saved movies!
-        </Typography>
+        <Typography component="h1" variant="h5">Viewing saved movies!</Typography>
       </Container>
       <Container>
         <Typography component="h2" variant="h5">
           {userData.savedMovies.length
-            ? `Viewing ${userData.savedMovies.length} saved ${
-                userData.savedMovies.length === 1 ? "movie" : "movies"
-              }:`
+            ? `Viewing ${userData.savedMovies.length} saved ${userData.savedMovies.length === 1 ? "movie" : "movies"}:`
             : "You have no saved movies!"}
-          You have no saved movies!
         </Typography>
         <div className="column">
-          {userData.savedMovies.filter((movie) => {
+          {userData.savedMovies.map((movie) => {
             return (
-              <Card key={movie.id}>
+              <Card key={movie.movieId}>
                 <CardContent>
                   <img
-                    src={`https://image.tmdb.org/t/p/w185_and_h278_bestv2/${movie.poster_path}`}
+                    src={`https://image.tmdb.org/t/p/w185_and_h278_bestv2/${movie.poster}`}
                     alt={"poster for " + movie.title}
-                  />
-                </CardContent>
-                <CardHeader
-                  title={movie.title}
-                  subheader={movie.release_date}
-                  align="left"
-                />
+                  /></CardContent>
+                <CardHeader title={movie.title} subheader={movie.date} align="left" />
                 <CardContent align="left">
                   <Typography component="p" variant="h5">
                     {movie.overview}
-                  </Typography>
-                </CardContent>
+                  </Typography></CardContent>
                 <Button
-                  className="btn-block btn-danger"
-                  onClick={() => handleDeleteMovie(movie.id)}
+                  variant="contained"
+                  color="primary"
+                  onClick={() => handleDeleteMovie(movie.movieId)}
                 >
                   Delete this Movie!
-                </Button>
+                  </Button>
               </Card>
             );
           })}

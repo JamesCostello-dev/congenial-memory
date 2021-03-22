@@ -31,7 +31,7 @@ const resolvers = {
       const token = signToken(user);
       return { token, user };
     },
-    savedMovie: async (parent, { input }, { user }) => {
+    saveMovie: async (parent, { input }, { user }) => {
       if (user) {
         const updateUser = await User.findByIdAndUpdate(
           { _id: user._id },

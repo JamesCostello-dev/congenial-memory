@@ -6,14 +6,14 @@ type Auth {
   user: User
 }
 type Movie {
-  movieId: String
+  movieId: ID
   title: String
   overview: String
   poster: String
   date: String
 }
 input movieInput {
-  movieId: String
+  movieId: ID
   title: String
   overview: String
   poster: String
@@ -32,8 +32,8 @@ type Query {
 type Mutation {
   login(email: String!, password: String!): Auth
   addUser(username: String!, email: String!, password: String!): Auth
-  savedMovie(input: movieInput): User 
-  removeMovie(movieId: String!): User
+  saveMovie(input: movieInput): User 
+  removeMovie(movieId: ID!): User
 }
 `;
 

@@ -21,7 +21,7 @@ const userSchema = new Schema(
       required: true,
     },
     // set savedmovies to be an array of data that adheres to the movieSchema
-    savedmovies: [movieSchema],
+    savedMovies: [movieSchema],
   },
   // set this to use virtual below
   {
@@ -48,7 +48,7 @@ userSchema.methods.isCorrectPassword = async function (password) {
 
 // when we query a user, we'll also get another field called `movieCount` with the number of saved movies we have
 userSchema.virtual('movieCount').get(function () {
-  return this.savedmovies.length;
+  return this.savedMovies.length;
 });
 
 const User = model('User', userSchema);

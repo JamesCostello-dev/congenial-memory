@@ -1,7 +1,7 @@
 const { Schema } = require("mongoose");
 
 const movieSchema = new Schema({
-  description: {
+  overview: {
     type: String,
   },
   // saved movie id
@@ -9,10 +9,7 @@ const movieSchema = new Schema({
     type: String,
     required: true,
   },
-  image: {
-    type: String,
-  },
-  link: {
+  poster: {
     type: String,
   },
   title: {

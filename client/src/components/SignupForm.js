@@ -132,7 +132,7 @@ const SignupForm = () => {
           </Grid>
           {
             error ? <div>
-              <FormHelperText variant="error" >Please enter a valid email address</FormHelperText>
+              <FormHelperText error >Please enter a valid email address</FormHelperText>
             </div> : null
           }
           <Button

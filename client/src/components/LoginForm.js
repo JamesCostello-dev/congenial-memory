@@ -112,7 +112,7 @@ const LoginForm = () => {
           />
           {
             error ? <div>
-              <FormHelperText variant="error" >Incorrect credentials</FormHelperText>
+              <FormHelperText error >Incorrect credentials</FormHelperText>
             </div> : null
           }
           <Button

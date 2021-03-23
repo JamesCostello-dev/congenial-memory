@@ -59,9 +59,9 @@ const Navbar = () => {
       <CssBaseline />
       <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
         <Toolbar className={classes.toolbar}>
-          <Link as={Link} to='/' variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
+          <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
             Movie DB Search
-          </Link>
+          </Typography>
           <nav>
             <Link as={Link} to='/' variant="button" color="textPrimary" className={classes.link}>
               Search Movies

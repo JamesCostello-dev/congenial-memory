@@ -145,7 +145,6 @@ const SearchMovies = () => {
                     title={movie.title}
                     subheader={movie.date}
                     align="left"
-                    key={movie.title}
                   />
                   <CardContent>
                     <img

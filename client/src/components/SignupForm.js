@@ -1,19 +1,18 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-
-// import { createUser } from '../utils/API';
 import Auth from '../utils/auth';
 import { ADD_USER } from '../utils/mutations'
 import { useMutation } from '@apollo/client'
+import FormHelperText from '@material-ui/core/FormHelperText';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -39,12 +38,7 @@ const useStyles = makeStyles((theme) => ({
 // Need to add validation for submit
 const SignupForm = () => {
   const classes = useStyles();
-  // set initial form state
   const [userFormData, setUserFormData] = useState({ username: '', email: '', password: '' });
-  // set state for form validation
-  const [validated] = useState(false);
-  // set state for alert
-  // const [showAlert, setShowAlert] = useState(false);
   const [addUser, { error }] = useMutation(ADD_USER);
 
   const handleInputChange = (event) => {
@@ -55,7 +49,6 @@ const SignupForm = () => {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
-    // check if form has everything (as per react-bootstrap docs)
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
@@ -74,7 +67,6 @@ const SignupForm = () => {
       Auth.login(data.addUser.token);
     } catch (err) {
       console.error(err);
-      // setShowAlert(true);
     }
 
     setUserFormData({
@@ -94,7 +86,7 @@ const SignupForm = () => {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate validated={validated} onSubmit={handleFormSubmit}>
+        <form className={classes.form} noValidate onSubmit={handleFormSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
@@ -106,7 +98,7 @@ const SignupForm = () => {
                 required
                 fullWidth
                 id="username"
-                label="First Name"
+                label="Username"
                 autoFocus
               />
             </Grid>
@@ -138,6 +130,11 @@ const SignupForm = () => {
               />
             </Grid>
           </Grid>
+          {
+            error ? <div>
+              <FormHelperText error >Please enter a valid email address</FormHelperText>
+            </div> : null
+          }
           <Button
             type="submit"
             fullWidth
@@ -147,9 +144,9 @@ const SignupForm = () => {
           >
             Sign Up
           </Button>
-          <Grid container justify="flex-end">
+          <Grid container justify="center">
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link as={Link} to='/login' variant="body1">
                 Already have an account? Sign in
               </Link>
             </Grid>

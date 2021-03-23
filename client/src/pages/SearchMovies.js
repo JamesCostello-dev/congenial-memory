@@ -139,7 +139,7 @@ const SearchMovies = () => {
         >
           {searchedMovies.map((movie) => {
             return (
-              <Grid item xs={12} sm={6} md={3} ket={movie.movieId}>
+              <Grid item xs={12} sm={6} md={3}>
                 <Card key={movie.movieId} className={classes.root}>
                   <CardHeader
                     title={movie.title}

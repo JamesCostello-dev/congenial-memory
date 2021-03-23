@@ -42,7 +42,6 @@ const useStyles = makeStyles((theme) => ({
 
 const Navbar = () => {
   const classes = useStyles();
-  // const [showModal, setShowModal] = useState(false);
 
   return (
     <React.Fragment>
@@ -61,9 +60,6 @@ const Navbar = () => {
             </Link>
             <Link as={Link} to='/login' color="primary" variant="outlined" className={classes.link}>
               Login
-          </Link>
-            <Link as={Link} to='/signup' color="primary" variant="outlined" className={classes.link}>
-              Sign Up
           </Link>
           </nav>
         </Toolbar>

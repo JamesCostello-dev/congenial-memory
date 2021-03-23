@@ -13,11 +13,30 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
+import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      // Dark Grey
+      main: '#393e46',
+    },
+    secondary: {
+      // Yellow
+      main: '#ffd369',
+    },
+  },
+  typography: {
+    fontSize: 20,
+  }
+});
 
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 500,
     padding: "5px",
+    // backgroundColor: theme.palette.primary.main
   },
 }));
 
@@ -27,6 +46,13 @@ const SavedMovies = () => {
   const classes = useStyles();
 
   const userData = data?.me || [];
+
+  const myTheme = {
+    cardStylePref:{
+      background: "#393e46",
+      color: "#eeeeee"
+    }
+  }
 
   const handleDeleteMovie = async (movieId) => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
@@ -56,11 +82,12 @@ const SavedMovies = () => {
 
   return (
     <>
+  <ThemeProvider theme={theme}>
       <Container maxWidth="sm" align="center">
-        <Typography component="h1" variant="h5">Viewing saved movies!</Typography>
+        <Typography component="h1">Viewing saved movies!</Typography>
       </Container>
       <Container maxWidth="lg" align="center">
-        <Typography component="h2" variant="h5">
+        <Typography component="h2">
           {userData.savedMovies.length
             ? `Viewing ${userData.savedMovies.length} saved ${userData.savedMovies.length === 1 ? "movie" : "movies"}:`
             : "You have no saved movies!"}
@@ -74,12 +101,14 @@ const SavedMovies = () => {
         >
           {userData.savedMovies.map((movie) => {
             return (
-              <Grid item xs={12} sm={6} md={3}>
-              <Card key={movie.movieId} className={classes.root}>
-              <CardHeader
+              <Grid item xs={12} sm={6} md={3} key={movie.movieId}>
+
+              <Card key={movie.movieId} className={classes.root} style={myTheme.cardStylePref}>
+                <CardHeader
                     title={movie.title}
                     subheader={movie.date}
                     align="left"
+                    style={myTheme.cardStylePref}
                   />
                   <CardContent>
                     <img
@@ -87,24 +116,24 @@ const SavedMovies = () => {
                       alt={"poster for " + movie.title}
                     />
                   </CardContent>
-                  <CardContent align="left">
-                    <Typography component="p" variant="h5">
+                  <CardContent align="left" component="p" style={myTheme.cardStylePref}>
                       {movie.overview}
-                    </Typography>
                   </CardContent>
                 <Button
                   variant="contained"
-                  color="primary"
+                  color="secondary"
                   onClick={() => handleDeleteMovie(movie.movieId)}
                 >
                   Delete this Movie!
                   </Button>
               </Card>
+
               </Grid>
             );
           })}
         </Grid>
       </Container>
+      </ThemeProvider>
     </>
   );
 };

@@ -17,6 +17,25 @@ import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
 import Grid from "@material-ui/core/Grid";
 
+import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      // Dark Grey
+      main: '#393e46',
+    },
+    secondary: {
+      // Yellow
+      main: '#ffd369',
+    },
+  },
+  typography: {
+    fontSize: 20,
+  }
+});
+
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 500,
@@ -36,6 +55,13 @@ const SearchMovies = () => {
   const [savedMovieIds, setSavedMovieIds] = useState(getSavedMovieIds());
   const [saveMovie, { error }] = useMutation(SAVE_MOVIE);
   const classes = useStyles();
+
+  const myTheme = {
+    cardStylePref:{
+      background: "#393e46",
+      color: "#eeeeee"
+    }
+  }
 
   useEffect(() => {
     return () => saveMovieIds(savedMovieIds);
@@ -102,8 +128,9 @@ const SearchMovies = () => {
 
   return (
     <>
+      <ThemeProvider theme={theme}>
       <Container maxWidth="sm" className={classes.top} align="center">
-        <Typography component="h1" variant="h5">
+        <Typography component="h1">
           Search for Movies!
         </Typography>
         <form onSubmit={handleFormSubmit}>
@@ -117,7 +144,7 @@ const SearchMovies = () => {
             placeholder="Search for a movie"
           />
           <div>
-            <Button type="submit" variant="contained" color="primary">
+            <Button type="submit" variant="contained" color="secondary">
               Submit Search
             </Button>
           </div>
@@ -125,7 +152,7 @@ const SearchMovies = () => {
       </Container>
 
       <Container maxWidth="lg" align="center" className={classes.top}>
-        <Typography component="h2" variant="h5">
+        <Typography component="h2">
           {searchedMovies.length
             ? `Viewing ${searchedMovies.length} results:`
             : "Search for a movie to begin"}
@@ -140,11 +167,12 @@ const SearchMovies = () => {
           {searchedMovies.map((movie) => {
             return (
               <Grid item xs={12} sm={6} md={3} key={movie.movieId}>
-                <Card key={movie.movieId} className={classes.root}>
+                <Card key={movie.movieId} className={classes.root} style={myTheme.cardStylePref}>
                   <CardHeader
                     title={movie.title}
                     subheader={movie.date}
                     align="left"
+                    style={myTheme.cardStylePref}
                   />
                   <CardContent>
                     <img
@@ -152,10 +180,10 @@ const SearchMovies = () => {
                       alt={"poster for " + movie.title}
                     />
                   </CardContent>
-                  <CardContent align="left">
-                    <Typography component="p" variant="h5">
+                  <CardContent align="left" component="p" style={myTheme.cardStylePref}>
+                
                       {movie.overview}
-                    </Typography>
+       
                   </CardContent>
                   {Auth.loggedIn() && (
                     <Button
@@ -164,7 +192,7 @@ const SearchMovies = () => {
                       )}
                       onClick={() => handleSaveMovie(movie.movieId)}
                       variant="contained"
-                      color="primary"
+                      color="secondary"
                       className={classes.button}
                     >
                       {savedMovieIds?.some(
@@ -180,6 +208,7 @@ const SearchMovies = () => {
           })}
         </Grid>
       </Container>
+      </ThemeProvider>
     </>
   );
 };

@@ -27,7 +27,11 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     fontSize: '2em',
     fontWeight: 'bold',
-    color: '#eeeeee'
+    color: '#eeeeee',
+    textDecoration: 'none',
+    '&:hover': {
+      color: "#61afef",
+    },
   },
   link: {
     margin: theme.spacing(1, 1.5),
@@ -59,9 +63,9 @@ const Navbar = () => {
       <CssBaseline />
       <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
         <Toolbar className={classes.toolbar}>
-          <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
+          <Link as={Link} to='/' variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
             Movie DB Search
-          </Typography>
+          </Link>
           <nav>
             <Link as={Link} to='/' variant="button" color="textPrimary" className={classes.link}>
               Search Movies

@@ -28,10 +28,6 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '2em',
     fontWeight: 'bold',
     color: '#eeeeee',
-    textDecoration: 'none',
-    '&:hover': {
-      color: "#61afef",
-    },
   },
   link: {
     margin: theme.spacing(1, 1.5),

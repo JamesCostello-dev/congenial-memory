@@ -18,19 +18,30 @@ const useStyles = makeStyles((theme) => ({
   },
   appBar: {
     borderBottom: `1px solid ${theme.palette.divider}`,
+    backgroundColor: '#222831'
   },
   toolbar: {
     flexWrap: 'wrap',
   },
   toolbarTitle: {
     flexGrow: 1,
+    fontSize: '2em',
+    fontWeight: 'bold',
+    color: '#eeeeee',
   },
   link: {
     margin: theme.spacing(1, 1.5),
+    fontSize: '1.5em',
+    fontWeight: 'bold',
+    textDecoration: 'none',
+    color: '#eeeeee',
+    '&:hover': {
+      color: "#61afef",
+    },
   },
   footer: {
     borderTop: `1px solid ${theme.palette.divider}`,
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(25),
     paddingTop: theme.spacing(3),
     paddingBottom: theme.spacing(3),
     [theme.breakpoints.up('sm')]: {

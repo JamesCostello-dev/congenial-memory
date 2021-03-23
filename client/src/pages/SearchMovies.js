@@ -57,7 +57,7 @@ const SearchMovies = () => {
   const classes = useStyles();
 
   const myTheme = {
-    cardStylePref:{
+    cardStylePref: {
       background: "#393e46",
       color: "#eeeeee"
     }
@@ -129,85 +129,85 @@ const SearchMovies = () => {
   return (
     <>
       <ThemeProvider theme={theme}>
-      <Container maxWidth="sm" className={classes.top} align="center">
-        <Typography component="h1">
-          Search for Movies!
+        <Container maxWidth="sm" className={classes.top} align="center">
+          <Typography component="h1">
+            Search for Movies!
         </Typography>
-        <form onSubmit={handleFormSubmit}>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            name="searchInput"
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-            type="text"
-            placeholder="Search for a movie"
-          />
-          <div>
-            <Button type="submit" variant="contained" color="secondary">
-              Submit Search
+          <form onSubmit={handleFormSubmit}>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              name="searchInput"
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+              type="text"
+              placeholder="Search for a movie"
+            />
+            <div>
+              <Button type="submit" variant="contained" color="secondary">
+                Submit Search
             </Button>
-          </div>
-        </form>
-      </Container>
+            </div>
+          </form>
+        </Container>
 
-      <Container maxWidth="lg" align="center" className={classes.top}>
-        <Typography component="h2">
-          {searchedMovies.length
-            ? `Viewing ${searchedMovies.length} results:`
-            : "Search for a movie to begin"}
-        </Typography>
-        <Grid
-          container
-          spacing={2}
-          direction="row"
-          justify="flex-start"
-          alignItems="flex-start"
-        >
-          {searchedMovies.map((movie) => {
-            return (
-              <Grid item xs={12} sm={6} md={3} key={movie.movieId}>
-                <Card key={movie.movieId} className={classes.root} style={myTheme.cardStylePref}>
-                  <CardHeader
-                    title={movie.title}
-                    subheader={movie.date}
-                    align="left"
-                    style={myTheme.cardStylePref}
-                  />
-                  <CardContent>
-                    <img
-                      src={`https://image.tmdb.org/t/p/w185_and_h278_bestv2/${movie.poster}`}
-                      alt={"poster for " + movie.title}
+        <Container maxWidth="lg" align="center" className={classes.top}>
+          <Typography component="h2">
+            {searchedMovies.length
+              ? `Viewing ${searchedMovies.length} results:`
+              : "Search for a movie to begin"}
+          </Typography>
+          <Grid
+            container
+            spacing={2}
+            direction="row"
+            justify="flex-start"
+            alignItems="flex-start"
+          >
+            {searchedMovies.map((movie) => {
+              return (
+                <Grid item xs={12} sm={6} md={3} key={movie.movieId}>
+                  <Card key={movie.movieId} className={classes.root} style={myTheme.cardStylePref}>
+                    <CardHeader
+                      title={movie.title}
+                      subheader={movie.date}
+                      align="left"
+                      style={myTheme.cardStylePref}
                     />
-                  </CardContent>
-                  <CardContent align="left" component="p" style={myTheme.cardStylePref}>
-                
+                    <CardContent>
+                      <img
+                        src={`https://image.tmdb.org/t/p/w185_and_h278_bestv2/${movie.poster}`}
+                        alt={"poster for " + movie.title}
+                      />
+                    </CardContent>
+                    <CardContent align="left" component="p" style={myTheme.cardStylePref}>
+
                       {movie.overview}
-       
-                  </CardContent>
-                  {Auth.loggedIn() && (
-                    <Button
-                      disabled={savedMovieIds?.some(
-                        (savedMovieId) => savedMovieId === movie.movieId
-                      )}
-                      onClick={() => handleSaveMovie(movie.movieId)}
-                      variant="contained"
-                      color="secondary"
-                      className={classes.button}
-                    >
-                      {savedMovieIds?.some(
-                        (savedMovieId) => savedMovieId === movie.movieId
-                      )
-                        ? "This movie has already been saved!"
-                        : "Save this Movie!"}
-                    </Button>
-                  )}
-                </Card>
-              </Grid>
-            );
-          })}
-        </Grid>
-      </Container>
+
+                    </CardContent>
+                    {Auth.loggedIn() && (
+                      <Button
+                        disabled={savedMovieIds?.some(
+                          (savedMovieId) => savedMovieId === movie.movieId
+                        )}
+                        onClick={() => handleSaveMovie(movie.movieId)}
+                        variant="contained"
+                        color="secondary"
+                        className={classes.button}
+                      >
+                        {savedMovieIds?.some(
+                          (savedMovieId) => savedMovieId === movie.movieId
+                        )
+                          ? "This movie has already been saved!"
+                          : "Save this Movie!"}
+                      </Button>
+                    )}
+                  </Card>
+                </Grid>
+              );
+            })}
+          </Grid>
+        </Container>
       </ThemeProvider>
     </>
   );

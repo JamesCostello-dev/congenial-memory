@@ -10,6 +10,7 @@ import LoginForm from './components/LoginForm';
 import SignupForm from './components/SignupForm';
 import AppContext from './AppContext';
 
+
 const client = new ApolloClient({
   request: operation => {
     const token = localStorage.getItem('id_token')

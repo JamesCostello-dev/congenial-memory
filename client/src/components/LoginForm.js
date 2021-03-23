@@ -1,11 +1,9 @@
 import React, { useState, useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -14,6 +12,7 @@ import { LOGIN_USER } from '../utils/mutations'
 import { useMutation } from '@apollo/client'
 import FormHelperText from '@material-ui/core/FormHelperText';
 import AppContext from '../AppContext';
+import { ThemeProvider } from '@material-ui/styles';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -21,10 +20,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    fontSize: '1.5em'
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -32,6 +28,13 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    fontWeight: 'bold',
+    color: 'black',
+    backgroundColor: '#ffd369',
+    '&:hover': {
+      color: "#61afef",
+      backgroundColor: '#393e46'
+    },
   },
 }));
 
@@ -76,65 +79,63 @@ const LoginForm = () => {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Login
+    <>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <div className={classes.paper}>
+          <Typography component="h1" variant="h5">
+            Login
         </Typography>
-        <form className={classes.form} onSubmit={handleFormSubmit}>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            type="text"
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            onChange={handleInputChange}
-            value={userFormData.email}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            onChange={handleInputChange}
-            value={userFormData.password}
-            label="Password"
-            type="password"
-            id="password"
-          />
-          {
-            error ? <div>
-              <FormHelperText error >Incorrect credentials</FormHelperText>
-            </div> : null
-          }
-          <Button
-            type="submit"
-            to='/'
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Sign In
+          <form className={classes.form} onSubmit={handleFormSubmit}>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              type="text"
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              onChange={handleInputChange}
+              value={userFormData.email}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              onChange={handleInputChange}
+              value={userFormData.password}
+              label="Password"
+              type="password"
+              id="password"
+            />
+            {
+              error ? <div>
+                <FormHelperText error >Incorrect credentials</FormHelperText>
+              </div> : null
+            }
+            <Button
+              type="submit"
+              to='/'
+              fullWidth
+              className={classes.submit}
+              hover={true}
+            >
+              Sign In
           </Button>
-          <Grid container justify="center">
-            <Grid item>
-              <Link to='/signup' variant="body1">
-                {"Don't have an account? Sign Up"}
-              </Link>
+            <Grid container justify="center">
+              <Grid item>
+                <Link to='/signup' variant="body1">
+                  {"Don't have an account? Sign Up"}
+                </Link>
+              </Grid>
             </Grid>
-          </Grid>
-        </form>
-      </div>
-    </Container>
+          </form>
+        </div>
+      </Container>
+    </>
   );
 }
 

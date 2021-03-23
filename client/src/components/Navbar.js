@@ -49,7 +49,7 @@ const Navbar = () => {
       <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
         <Toolbar className={classes.toolbar}>
           <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
-            Final Project
+            Movie DB Search
           </Typography>
           <nav>
             <Link as={Link} to='/' variant="button" color="textPrimary" className={classes.link}>

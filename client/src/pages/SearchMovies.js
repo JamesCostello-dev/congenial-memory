@@ -7,27 +7,27 @@ import { saveMovieIds, getSavedMovieIds } from "../utils/localStorage";
 import { SAVE_MOVIE } from "../utils/mutations";
 import { useMutation } from "@apollo/client";
 
-import Button from '@material-ui/core/Button';
-import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
-import Card from '@material-ui/core/Card';
-import { makeStyles } from '@material-ui/core/styles';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
+import Button from "@material-ui/core/Button";
+import Container from "@material-ui/core/Container";
+import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
+import Card from "@material-ui/core/Card";
+import { makeStyles } from "@material-ui/core/styles";
+import CardHeader from "@material-ui/core/CardHeader";
+import CardContent from "@material-ui/core/CardContent";
+import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 500,
-    padding: '5px' 
+    padding: "5px",
   },
   button: {
-    padding: '10px'
+    padding: "10px",
   },
   top: {
-    paddingTop: '10px'
-  }
-
+    paddingTop: "10px",
+  },
 }));
 
 const SearchMovies = () => {
@@ -36,7 +36,6 @@ const SearchMovies = () => {
   const [savedMovieIds, setSavedMovieIds] = useState(getSavedMovieIds());
   const [saveMovie, { error }] = useMutation(SAVE_MOVIE);
   const classes = useStyles();
-
 
   useEffect(() => {
     return () => saveMovieIds(savedMovieIds);
@@ -62,10 +61,9 @@ const SearchMovies = () => {
         movieId: movie.id,
         title: movie.title,
         overview: movie.overview,
-        poster: movie.poster_path || '',
-        date: movie.release_date
+        poster: movie.poster_path || "",
+        date: movie.release_date,
       }));
-
 
       setSearchedMovies(movieData);
       setSearchInput("");
@@ -102,12 +100,12 @@ const SearchMovies = () => {
     }
   };
 
-
-
   return (
     <>
       <Container maxWidth="sm" className={classes.top} align="center">
-        <Typography component="h1" variant="h5">Search for Movies!</Typography>
+        <Typography component="h1" variant="h5">
+          Search for Movies!
+        </Typography>
         <form onSubmit={handleFormSubmit}>
           <TextField
             variant="outlined"
@@ -116,58 +114,71 @@ const SearchMovies = () => {
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
             type="text"
-            size="lg"
             placeholder="Search for a movie"
           />
           <div>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              size="lg" >
+            <Button type="submit" variant="contained" color="primary">
               Submit Search
-                </Button>
+            </Button>
           </div>
         </form>
       </Container>
 
-
-      <Container maxWidth="sm" align="center" className={classes.top}>
+      <Container maxWidth="lg" align="center" className={classes.top}>
         <Typography component="h2" variant="h5">
           {searchedMovies.length
             ? `Viewing ${searchedMovies.length} results:`
             : "Search for a movie to begin"}
         </Typography>
-        <div>
+        <Grid
+          container
+          spacing={2}
+          direction="row"
+          justify="flex-start"
+          alignItems="flex-start"
+        >
           {searchedMovies.map((movie) => {
             return (
-              <Card key={movie.movieId} className={classes.root}>
-                <CardHeader title={movie.title} subheader={movie.date} align="left" />
-                <CardContent>
-                  <img
-                    src={`https://image.tmdb.org/t/p/w185_and_h278_bestv2/${movie.poster}`}
-                    alt={"poster for " + movie.title}
-                  /></CardContent>
-                <CardContent align="left">
-                  <Typography component="p" variant="h5">
-                    {movie.overview}
-                  </Typography></CardContent>
-                {Auth.loggedIn() && (
-                <Button
-                  disabled={savedMovieIds?.some((savedMovieId) => savedMovieId === movie.movieId)}
-                  onClick={() => handleSaveMovie(movie.movieId)}
-                  variant="contained"
-                  color="primary"
-                  className={classes.button}>
-                  {savedMovieIds?.some((savedMovieId) => savedMovieId === movie.movieId)
-                    ? 'This movie has already been saved!'
-                    : 'Save this Movie!'}
-                </Button>
-                 )} 
-              </Card>
+              <Grid item xs={12} sm={6} md={3}>
+                <Card key={movie.movieId} className={classes.root}>
+                  <CardHeader
+                    title={movie.title}
+                    subheader={movie.date}
+                    align="left"
+                  />
+                  <CardContent>
+                    <img
+                      src={`https://image.tmdb.org/t/p/w185_and_h278_bestv2/${movie.poster}`}
+                      alt={"poster for " + movie.title}
+                    />
+                  </CardContent>
+                  <CardContent align="left">
+                    <Typography component="p" variant="h5">
+                      {movie.overview}
+                    </Typography>
+                  </CardContent>
+                  {Auth.loggedIn() && (
+                    <Button
+                      disabled={savedMovieIds?.some(
+                        (savedMovieId) => savedMovieId === movie.movieId
+                      )}
+                      onClick={() => handleSaveMovie(movie.movieId)}
+                      variant="contained"
+                      color="primary"
+                      className={classes.button}
+                    >
+                      {savedMovieIds?.some(
+                        (savedMovieId) => savedMovieId === movie.movieId
+                      )
+                        ? "This movie has already been saved!"
+                        : "Save this Movie!"}
+                    </Button>
+                  )}
+                </Card>
+              </Grid>
             );
           })}
-        </div>
+        </Grid>
       </Container>
     </>
   );

@@ -1,12 +1,12 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-
-// import Auth from '../utils/auth';
+import AppContext from '../AppContext.js';
+import Auth from '../utils/auth';
 
 const useStyles = makeStyles((theme) => ({
   '@global': {
@@ -53,6 +53,15 @@ const useStyles = makeStyles((theme) => ({
 
 const Navbar = () => {
   const classes = useStyles();
+  const { loggedIn, setLoggedIn } = useContext(AppContext);
+  const history = useHistory();
+
+  const logout = (e) => {
+    e.preventDefault();
+    Auth.logout();
+    history.push('/');
+    setLoggedIn(false);
+  }
 
   return (
     <React.Fragment>
@@ -63,15 +72,23 @@ const Navbar = () => {
             Movie DB Search
           </Typography>
           <nav>
-            <Link as={Link} to='/' variant="button" color="textPrimary" className={classes.link}>
+            <Link to='/' className={classes.link}>
               Search Movies
             </Link>
-            <Link as={Link} to='/saved' variant="button" color="textPrimary" className={classes.link}>
-              Saved Movies
+            {loggedIn ? (
+              <>
+                <Link to='/saved' className={classes.link}>
+                  Saved Movies
             </Link>
-            <Link as={Link} to='/login' color="primary" variant="outlined" className={classes.link}>
-              Login
+                <Link to='/' onClick={logout} className={classes.link}>
+                  logout
           </Link>
+              </>
+            ) : (
+              <Link to='/login' className={classes.link}>
+                Login
+              </Link>
+            )}
           </nav>
         </Toolbar>
       </AppBar>

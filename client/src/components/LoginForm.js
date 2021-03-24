@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -13,6 +13,7 @@ import Auth from '../utils/auth';
 import { LOGIN_USER } from '../utils/mutations'
 import { useMutation } from '@apollo/client'
 import FormHelperText from '@material-ui/core/FormHelperText';
+import AppContext from '../AppContext';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -39,7 +40,8 @@ const LoginForm = () => {
 
   const [userFormData, setUserFormData] = useState({ email: '', password: '' });
   const [login, { error }] = useMutation(LOGIN_USER);
-
+  const history = useHistory();
+  const { setLoggedIn } = useContext(AppContext);
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setUserFormData({ ...userFormData, [name]: value });
@@ -48,11 +50,7 @@ const LoginForm = () => {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
+    // const form = event.currentTarget;
 
     try {
       const { data } = await login({
@@ -64,6 +62,8 @@ const LoginForm = () => {
       }
 
       Auth.login(data.login.token);
+      history.push('/');
+      setLoggedIn(true);
     } catch (err) {
       console.error(err);
     }
@@ -117,6 +117,7 @@ const LoginForm = () => {
           }
           <Button
             type="submit"
+            to='/'
             fullWidth
             variant="contained"
             color="primary"
@@ -126,7 +127,7 @@ const LoginForm = () => {
           </Button>
           <Grid container justify="center">
             <Grid item>
-              <Link as={Link} to='/signup' variant="body1">
+              <Link to='/signup' variant="body1">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>

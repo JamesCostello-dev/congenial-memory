@@ -12,7 +12,6 @@ import { LOGIN_USER } from '../utils/mutations'
 import { useMutation } from '@apollo/client'
 import FormHelperText from '@material-ui/core/FormHelperText';
 import AppContext from '../AppContext';
-import { ThemeProvider } from '@material-ui/styles';
  
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -121,7 +120,6 @@ const LoginForm = () => {
               to='/'
               fullWidth
               className={classes.submit}
-              hover={true}
             >
               Sign In
           </Button>

@@ -36,7 +36,6 @@ const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 500,
     padding: "5px",
-    // backgroundColor: theme.palette.primary.main
   },
 }));
 

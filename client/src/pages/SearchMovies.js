@@ -60,6 +60,9 @@ const SearchMovies = () => {
     cardStylePref: {
       background: "#393e46",
       color: "#eeeeee"
+    },
+    buttonStylePref: {
+      background: "#ffd369"
     }
   }
 
@@ -144,7 +147,7 @@ const SearchMovies = () => {
               placeholder="Search for a movie"
             />
             <div>
-              <Button type="submit" variant="contained" color="secondary">
+              <Button type="submit" variant="contained" style={myTheme.buttonStylePref}>
                 Submit Search
             </Button>
             </div>
@@ -192,7 +195,7 @@ const SearchMovies = () => {
                         )}
                         onClick={() => handleSaveMovie(movie.movieId)}
                         variant="contained"
-                        color="secondary"
+                        style={myTheme.buttonStylePref}
                         className={classes.button}
                       >
                         {savedMovieIds?.some(

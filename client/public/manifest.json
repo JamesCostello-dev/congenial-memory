@@ -1,6 +1,7 @@
 {
-  "short_name": "React Movie App",
   "name": "React Movie Search App",
+  "short_name": "React Movie App",
+  "description": "An app that allows you to search for movies.",
   "icons": [
     {
       "src": "favicon.ico",
@@ -21,6 +22,5 @@
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff",
-  "description": "An app that allows you to search for movies."
+  "background_color": "#ffffff"
 }

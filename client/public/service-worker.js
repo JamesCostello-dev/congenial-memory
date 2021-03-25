@@ -15,15 +15,25 @@ const FILES_TO_CACHE = [
   "/manifest.json",
 ];
 // install
-self.addEventListener("install", function (evt) {
-  evt.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      console.log("Your files were pre-cached successfully!");
-      return cache.addAll(FILES_TO_CACHE);
-    })
+self.addEventListener('install', function(e) {
+  e.waitUntil(
+      caches.open('pwa-example').then(function(cache) {
+          return cache.addAll([
+              '/',
+              '/index.html',
+              '/app.js',
+              '/app.css' //Add any other assets your web page needs
+          ]);
+      })
   );
+});
 
-  self.skipWaiting();
+self.addEventListener('fetch', function(event) {
+  event.respondWith(
+      caches.match(event.request).then(function(response) {
+          return response || fetch(event.request);
+      })
+  );
 });
 
 // activate

@@ -32,7 +32,7 @@ class AuthService {
 
   logout() {
     localStorage.removeItem('id_token');
-  }
+}
 }
 
 export default new AuthService();

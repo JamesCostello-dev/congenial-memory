@@ -75,7 +75,7 @@ const Navbar = () => {
             <Link to='/' className={classes.link}>
               Search Movies
             </Link>
-            {loggedIn ? (
+            {Auth.loggedIn() ? (
               <>
                 <Link to='/saved' className={classes.link}>
                   Saved Movies

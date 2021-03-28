@@ -4,24 +4,35 @@ import SearchMovies from './pages/SearchMovies';
 import SavedMovies from './pages/SavedMovies';
 import Copyright from './components/Footer';
 import Navbar from './components/Navbar';
-import { ApolloProvider } from '@apollo/client';
-import ApolloClient from 'apollo-boost'
+import { ApolloProvider, ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
 import LoginForm from './components/LoginForm';
 import SignupForm from './components/SignupForm';
 import AppContext from './AppContext';
+import Auth from './utils/auth';
 
+
+const httpLink = createHttpLink({
+  uri: '/graphql',
+});
+
+const authLink = setContext((_, { headers }) => {
+  // get the authentication token from local storage if it exists
+  const token = Auth.getToken();
+  // return the headers to the context so httpLink can read them
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : "",
+    }
+  }
+});
 
 const client = new ApolloClient({
-  request: operation => {
-    const token = localStorage.getItem('id_token')
-    operation.setContext({
-      headers: {
-        authorization: token ? `Bearer ${token}` : ''
-      }
-    })
-  },
-  uri: '/graphql'
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache()
 });
+
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);

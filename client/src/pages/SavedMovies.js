@@ -12,20 +12,6 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
-import { createMuiTheme } from '@material-ui/core/styles';
-import { ThemeProvider } from '@material-ui/styles';
-
-const theme = createMuiTheme({
-  palette: {
-    secondary: {
-      // Yellow
-      main: '#ffd369',
-    },
-  },
-  typography: {
-    fontSize: 20,
-  }
-});
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,9 +28,12 @@ const SavedMovies = () => {
   const userData = data?.me || [];
 
   const myTheme = {
-    cardStylePref:{
+    cardStylePref: {
       background: "#393e46",
       color: "#eeeeee"
+    },
+    buttonStylePref: {
+      background: "#ffd369"
     }
   }
 
@@ -75,7 +64,6 @@ const SavedMovies = () => {
 
   return (
     <>
-  <ThemeProvider theme={theme}>
       <Container maxWidth="sm" align="center">
         <Typography component="h1">Viewing saved movies!</Typography>
       </Container>
@@ -114,7 +102,7 @@ const SavedMovies = () => {
                   </CardContent>
                 <Button
                   variant="contained"
-                  color="secondary"
+                  style={myTheme.buttonStylePref}
                   onClick={() => handleDeleteMovie(movie.movieId)}
                 >
                   Delete this Movie!
@@ -126,7 +114,6 @@ const SavedMovies = () => {
           })}
         </Grid>
       </Container>
-      </ThemeProvider>
     </>
   );
 };

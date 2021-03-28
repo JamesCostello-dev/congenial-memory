@@ -62,10 +62,10 @@ THEN I am logged out of the site and presented with a menu with the options Sear
 * mongoose
 
 ## Deployed Application
-
-[https://aqueous-shelf-48398.herokuapp.com/]()
+[Click me to see deployed app](https://aqueous-shelf-48398.herokuapp.com/)
 
 ## Media
+![screenshot](https://user-images.githubusercontent.com/67806840/112768240-f2d54f00-8fcf-11eb-927d-91827927e756.png)
 
 ## Contributions
 Matthew Bogaert, James Costello, Emily Thai, Chris Werkheiser

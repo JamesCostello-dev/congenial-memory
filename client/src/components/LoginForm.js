@@ -1,32 +1,56 @@
-// see SignupForm.js for comments
-import React, { useState } from 'react';
-import { Form, Button, Alert } from 'react-bootstrap';
-
-// import { loginUser } from '../utils/API';
+import React, { useState, useContext } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
 import Auth from '../utils/auth';
 import { LOGIN_USER } from '../utils/mutations'
 import { useMutation } from '@apollo/client'
+import FormHelperText from '@material-ui/core/FormHelperText';
+import AppContext from '../AppContext';
+ 
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    fontSize: '1.5em'
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+    fontWeight: 'bold',
+    color: 'black',
+    backgroundColor: '#ffd369',
+    '&:hover': {
+      color: "#61afef",
+      backgroundColor: '#393e46'
+    },
+  },
+}));
 
 const LoginForm = () => {
-  const [userFormData, setUserFormData] = useState({ email: '', password: '' });
-  const [validated] = useState(false);
-  const [showAlert, setShowAlert] = useState(false);
-  const [login, { error }] = useMutation(LOGIN_USER);
+  const classes = useStyles();
 
+  const [userFormData, setUserFormData] = useState({ email: '', password: '' });
+  const [login, { error }] = useMutation(LOGIN_USER);
+  const history = useHistory();
+  const { setLoggedIn } = useContext(AppContext);
   const handleInputChange = (event) => {
-    const { name, value } = event.target;
+  const { name, value } = event.target;
     setUserFormData({ ...userFormData, [name]: value });
   };
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-
-    // check if form has everything (as per react-bootstrap docs)
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
 
     try {
       const { data } = await login({
@@ -38,58 +62,72 @@ const LoginForm = () => {
       }
 
       Auth.login(data.login.token);
+      history.push('/');
+      setLoggedIn(true);
     } catch (err) {
       console.error(err);
-      setShowAlert(true);
     }
 
-    setUserFormData({
-      username: '',
-      email: '',
-      password: '',
-    });
   };
 
   return (
     <>
-      <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
-        <Alert dismissible onClose={() => setShowAlert(false)} show={showAlert} variant='danger'>
-          Something went wrong with your login credentials!
-        </Alert>
-        <Form.Group>
-          <Form.Label htmlFor='email'>Email</Form.Label>
-          <Form.Control
-            type='text'
-            placeholder='Your email'
-            name='email'
-            onChange={handleInputChange}
-            value={userFormData.email}
-            required
-          />
-          <Form.Control.Feedback type='invalid'>Email is required!</Form.Control.Feedback>
-        </Form.Group>
-
-        <Form.Group>
-          <Form.Label htmlFor='password'>Password</Form.Label>
-          <Form.Control
-            type='password'
-            placeholder='Your password'
-            name='password'
-            onChange={handleInputChange}
-            value={userFormData.password}
-            required
-          />
-          <Form.Control.Feedback type='invalid'>Password is required!</Form.Control.Feedback>
-        </Form.Group>
-        <Button
-          disabled={!(userFormData.email && userFormData.password)}
-          type='submit'
-          variant='success'>
-          Submit
-        </Button>
-      </Form>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <div className={classes.paper}>
+          <Typography component="h1" variant="h5">
+            Login
+        </Typography>
+          <form className={classes.form} onSubmit={handleFormSubmit}>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              type="text"
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              onChange={handleInputChange}
+              value={userFormData.email}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              onChange={handleInputChange}
+              value={userFormData.password}
+              label="Password"
+              type="password"
+              id="password"
+            />
+            {
+              error ? <div>
+                <FormHelperText error >Incorrect credentials</FormHelperText>
+              </div> : null
+            }
+            <Button
+              type="submit"
+              to='/'
+              fullWidth
+              className={classes.submit}
+            >
+              Sign In
+          </Button>
+            <Grid container justify="center">
+              <Grid item>
+                <Link to='/signup' variant="body1">
+                  {"Don't have an account? Sign Up"}
+                </Link>
+              </Grid>
+            </Grid>
+          </form>
+        </div>
+      </Container>
     </>
   );
-};
+}
 
 export default LoginForm;

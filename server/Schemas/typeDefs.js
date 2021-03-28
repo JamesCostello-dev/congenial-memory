@@ -5,28 +5,26 @@ type Auth {
   token: ID!
   user: User
 }
-type Book {
-  bookId: String
-  authors: [String]
-  description: String
+type Movie {
+  movieId: ID
   title: String
-  image: String
-  link: String
+  overview: String
+  poster: String
+  date: String
 }
-input bookInput {
-  bookId: String
-  authors: [String]
-  description: String
+input movieInput {
+  movieId: ID
   title: String
-  image: String
-  link: String
+  overview: String
+  poster: String
+  date: String
 }
 type User {
   _id: ID
   username: String
   email: String
-  bookCount: Int
-  savedBooks: [Book]
+  movieCount: Int
+  savedMovies: [Movie]
 }
 type Query {
   me: User
@@ -34,8 +32,8 @@ type Query {
 type Mutation {
   login(email: String!, password: String!): Auth
   addUser(username: String!, email: String!, password: String!): Auth
-  saveBook(input: bookInput): User 
-  removeBook(bookId: String!): User
+  saveMovie(input: movieInput): User 
+  removeMovie(movieId: ID!): User
 }
 `;
 

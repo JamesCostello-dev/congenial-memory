@@ -40,7 +40,7 @@ THEN I am logged out of the site and presented with a menu with the options Sear
 
 - [Description](#description)
 - [Tech](#tech)
-- [Deployed Application](#deployed)
+- [Application](#app)
 - [License](#license)
 
 ## Tech
@@ -61,8 +61,8 @@ THEN I am logged out of the site and presented with a menu with the options Sear
 * graphql,
 * mongoose
 
-## Deployed Application
-[Deployed Application](https://quiet-hamlet-24216.herokuapp.com/)
+## Application
+[Application](https://quiet-hamlet-24216.herokuapp.com/)
 
 ## Media
 ![screenshot](https://user-images.githubusercontent.com/67806840/112768240-f2d54f00-8fcf-11eb-927d-91827927e756.png)

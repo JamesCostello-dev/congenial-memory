@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import AppContext from '../AppContext.js';
 import Auth from '../utils/auth';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const useStyles = makeStyles((theme) => ({
   '@global': {
@@ -22,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
   toolbar: {
     flexWrap: 'wrap',
+    justifyContent: 'center',
   },
   toolbarTitle: {
     flexGrow: 1,
@@ -49,13 +51,19 @@ const useStyles = makeStyles((theme) => ({
       paddingBottom: theme.spacing(6),
     },
   },
-}));
+  mediaToolbarTitle: {
+	flexGrow: 0,
+	fontSize: '2em',
+	fontWeight: 'bold',
+	color: '#eeeeee',
+  },
+}))
 
 const Navbar = () => {
   const classes = useStyles();
-  const { loggedIn, setLoggedIn } = useContext(AppContext);
+  const { setLoggedIn } = useContext(AppContext);
   const history = useHistory();
-
+  const isActive = useMediaQuery('(max-width: 600px)');
   const logout = (e) => {
     e.preventDefault();
     Auth.logout();
@@ -68,9 +76,14 @@ const Navbar = () => {
       <CssBaseline />
       <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
         <Toolbar className={classes.toolbar}>
-          <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
+	{isActive ? (
+	<Typography variant="h6" color="inherit" className={classes.mediaToolbarTitle}>Movie DB Search</Typography>
+	) : (
+          <Typography variant="h6" color="inherit"
+	   className={classes.toolbarTitle}>
             Movie DB Search
           </Typography>
+	  )}
           <nav>
             <Link to='/' className={classes.link}>
               Search Movies

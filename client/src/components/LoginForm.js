@@ -45,14 +45,12 @@ const LoginForm = () => {
   const history = useHistory();
   const { setLoggedIn } = useContext(AppContext);
   const handleInputChange = (event) => {
-    const { name, value } = event.target;
+  const { name, value } = event.target;
     setUserFormData({ ...userFormData, [name]: value });
   };
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-
-    // const form = event.currentTarget;
 
     try {
       const { data } = await login({

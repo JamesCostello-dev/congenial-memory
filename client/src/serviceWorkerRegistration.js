@@ -21,7 +21,6 @@ const isLocalhost = Boolean(
 );
 
 export function register(config) {
-  console.log(process.env.NODE_ENV)
   if (
     process.env.NODE_ENV === 'production' &&
     'serviceWorker' in navigator) {
@@ -39,7 +38,6 @@ export function register(config) {
       const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
 
       if (isLocalhost) {
-        console.log("Local Host Service Worker Registration")
         // This is running on localhost. Let's check if a service worker still exists or not.
         checkValidServiceWorker(swUrl, config);
 

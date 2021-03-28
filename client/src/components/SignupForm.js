@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -11,6 +11,7 @@ import Auth from '../utils/auth';
 import { ADD_USER } from '../utils/mutations'
 import { useMutation } from '@apollo/client'
 import FormHelperText from '@material-ui/core/FormHelperText';
+import AppContext from '../AppContext';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -37,11 +38,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-// Need to add validation for submit
 const SignupForm = () => {
   const classes = useStyles();
   const [userFormData, setUserFormData] = useState({ username: '', email: '', password: '' });
   const [addUser, { error }] = useMutation(ADD_USER);
+  const history = useHistory();
+  const {setLoggedIn} = useContext(AppContext);
+ 
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -67,6 +70,8 @@ const SignupForm = () => {
       }
 
       Auth.login(data.addUser.token);
+	history.push('/');
+	setLoggedIn(true);
     } catch (err) {
       console.error(err);
     }
@@ -136,6 +141,7 @@ const SignupForm = () => {
               </div> : null
             }
             <Button
+		to='/'
               type="submit"
               fullWidth
               variant="contained"
@@ -146,8 +152,8 @@ const SignupForm = () => {
           </Button>
             <Grid container justify="center">
               <Grid item>
-                <Link as={Link} to='/login' variant="body1">
-                  Already have an account? Sign in
+                <Link to='/login' variant="body1">
+                  {"Already have an account? Sign in"}
               </Link>
               </Grid>
             </Grid>

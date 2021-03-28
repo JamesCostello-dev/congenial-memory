@@ -76,11 +76,6 @@ const SignupForm = () => {
       console.error(err);
     }
 
-    setUserFormData({
-      username: '',
-      email: '',
-      password: '',
-    });
   };
 
   return (

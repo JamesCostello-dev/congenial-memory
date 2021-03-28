@@ -68,11 +68,6 @@ const LoginForm = () => {
       console.error(err);
     }
 
-    setUserFormData({
-      username: '',
-      email: '',
-      password: '',
-    });
   };
 
   return (

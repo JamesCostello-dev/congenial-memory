@@ -62,7 +62,7 @@ module.exports = {
   async deleteMovie({ user, params }, res) {
     const updatedUser = await User.findOneAndUpdate(
       { _id: user._id },
-      { $pull: { savedMovies: { MovieId: params.MovieId } } },
+      { $pull: { savedMovies: { movieId: params.movieId } } },
       { new: true }
     );
     if (!updatedUser) {

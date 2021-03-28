@@ -40,7 +40,7 @@ THEN I am logged out of the site and presented with a menu with the options Sear
 
 - [Description](#description)
 - [Tech](#tech)
-- [Application](#app)
+- [Application](#application)
 - [License](#license)
 
 ## Tech

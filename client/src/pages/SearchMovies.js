@@ -1,12 +1,8 @@
-import React, { useState, useEffect } from "react";
-
+import React, { useState } from "react";
 import Auth from "../utils/auth";
 import { searchMovieDB } from "../utils/API";
-import { saveMovieIds, getSavedMovieIds } from "../utils/localStorage";
-
 import { SAVE_MOVIE } from "../utils/mutations";
-import { useMutation } from "@apollo/client";
-
+import { useMutation, useQuery } from "@apollo/client";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
@@ -16,25 +12,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
 import Grid from "@material-ui/core/Grid";
-
-import { createMuiTheme } from '@material-ui/core/styles';
-import { ThemeProvider } from '@material-ui/styles';
-
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      // Dark Grey
-      main: '#393e46',
-    },
-    secondary: {
-      // Yellow
-      main: '#ffd369',
-    },
-  },
-  typography: {
-    fontSize: 20,
-  }
-});
+import { GET_ME } from "../utils/queries";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -52,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 const SearchMovies = () => {
   const [searchedMovies, setSearchedMovies] = useState([]);
   const [searchInput, setSearchInput] = useState("");
-  const [savedMovieIds, setSavedMovieIds] = useState(getSavedMovieIds());
+  const {loading, data} = useQuery(GET_ME);
   const [saveMovie, { error }] = useMutation(SAVE_MOVIE);
   const classes = useStyles();
 
@@ -65,10 +43,6 @@ const SearchMovies = () => {
       background: "#ffd369"
     }
   }
-
-  useEffect(() => {
-    return () => saveMovieIds(savedMovieIds);
-  });
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
@@ -117,21 +91,20 @@ const SearchMovies = () => {
         variables: { input: movieToSave },
       });
 
-      console.log(data);
-
       if (error) {
         throw new Error("Something went wrong");
       }
 
-      setSavedMovieIds([...savedMovieIds, movieToSave.movieId]);
     } catch (err) {
       console.error(err);
     }
   };
 
+  if (loading) return <> </> 
+  const savedMovies = data?.me?.savedMovies ?? []
+
   return (
     <>
-      <ThemeProvider theme={theme}>
         <Container maxWidth="sm" className={classes.top} align="center">
           <Typography component="h1">
             Search for Movies!
@@ -168,6 +141,9 @@ const SearchMovies = () => {
             alignItems="flex-start"
           >
             {searchedMovies.map((movie) => {
+              const alreadySaved = savedMovies?.some(
+                (savedMovie) => savedMovie.movieId == movie.movieId
+              )
               return (
                 <Grid item xs={12} sm={6} md={3} key={movie.movieId}>
                   <Card key={movie.movieId} className={classes.root} style={myTheme.cardStylePref}>
@@ -190,17 +166,13 @@ const SearchMovies = () => {
                     </CardContent>
                     {Auth.loggedIn() && (
                       <Button
-                        disabled={savedMovieIds?.some(
-                          (savedMovieId) => savedMovieId === movie.movieId
-                        )}
+                        disabled={alreadySaved}
                         onClick={() => handleSaveMovie(movie.movieId)}
                         variant="contained"
                         style={myTheme.buttonStylePref}
                         className={classes.button}
                       >
-                        {savedMovieIds?.some(
-                          (savedMovieId) => savedMovieId === movie.movieId
-                        )
+                        {alreadySaved
                           ? "This movie has already been saved!"
                           : "Save this Movie!"}
                       </Button>
@@ -211,7 +183,6 @@ const SearchMovies = () => {
             })}
           </Grid>
         </Container>
-      </ThemeProvider>
     </>
   );
 };

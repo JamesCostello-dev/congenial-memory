@@ -1,6 +1,5 @@
 import React from "react";
 import Auth from "../utils/auth";
-import { removeMovieId } from "../utils/localStorage";
 import { useQuery, useMutation } from "@apollo/client";
 import { REMOVE_MOVIE } from "../utils/mutations";
 import { GET_ME } from "../utils/queries";
@@ -18,10 +17,6 @@ import { ThemeProvider } from '@material-ui/styles';
 
 const theme = createMuiTheme({
   palette: {
-    primary: {
-      // Dark Grey
-      main: '#393e46',
-    },
     secondary: {
       // Yellow
       main: '#ffd369',
@@ -69,7 +64,6 @@ const SavedMovies = () => {
         throw new Error("Something went wrong");
       }
 
-      removeMovieId(movieId);
     } catch (err) {
       console.error(err);
     }
